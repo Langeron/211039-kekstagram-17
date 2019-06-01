@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Дима Гончаренко](https://up.htmlacademy.ru/javascript/17/user/211039).
-* Наставник: `Неизвестно`.
+* Наставник: [Игорь Антонов](https://htmlacademy.ru/profile/antonov).
 
 ---
 
