@@ -30,7 +30,7 @@ var FORMAT_IMG = {
 };
 
 var getRandomNumber = function (min, max) {
-  return Math.floor(Math.random() * (max + 1 - min)) + min;
+  return Math.round(Math.random() * (max - min)) + min;
 };
 
 var photos = [];
