@@ -33,9 +33,8 @@ var getRandomNumber = function (min, max) {
   return Math.round(Math.random() * (max - min)) + min;
 };
 
-var photos = [];
-
 var getArrayPhotos = function (count) {
+  var photos = [];
   for (var i = 1; i <= count; i++) {
     var photosOption = {
       url: PATH.PHOTO + i + FORMAT_IMG.JPG,
@@ -51,9 +50,11 @@ var getArrayPhotos = function (count) {
 
     photos.push(photosOption);
   }
+
+  return photos;
 };
 
-getArrayPhotos(25);
+var photos = getArrayPhotos(25);
 
 var renderPhoto = function (photo) {
   var pictureElement = pictureTemplate.cloneNode(true);
