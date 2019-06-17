@@ -70,4 +70,32 @@ for (var i = 0; i < photos.length; i++) {
 
 pictureList.appendChild(fragment);
 
+var uploadPopup = document.querySelector('.img-upload__overlay');
+var inputUploadImage = document.querySelector('.img-upload__input');
+var uploadButtonClose = uploadPopup.querySelector('.img-upload__cancel');
+var KEY_ESC = 27;
 
+var openUploadPopup = function () {
+  uploadPopup.classList.remove('hidden');
+  document.addEventListener('keydown', onUploadEscPress);
+};
+
+var closeUploadPopup = function () {
+  uploadPopup.classList.add('hidden');
+  document.removeEventListener('keydown', onUploadEscPress);
+  uploadButtonClose.value = '';
+};
+
+var onUploadEscPress = function (evt) {
+  if (evt.keyCode === KEY_ESC) {
+    closeUploadPopup();
+  }
+};
+
+inputUploadImage.addEventListener('change', function () {
+  openUploadPopup();
+});
+
+uploadButtonClose.addEventListener('click', function () {
+  closeUploadPopup();
+});
