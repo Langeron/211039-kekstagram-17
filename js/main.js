@@ -170,17 +170,17 @@ effectPin.addEventListener('mouseup', function () {
 
 var buttonScaleSmaller = document.querySelector('.scale__control--smaller');
 var buttonScaleBigger = document.querySelector('.scale__control--bigger');
-var inputScale = document.querySelector('.scale__control--value');2
+var inputScale = document.querySelector('.scale__control--value');
 var SCALE = {
   STEP: 25,
   MIN: 25,
   MAX: 100
-}
+};
 
 uploadImg.style.transform = 'scale(1)';
 inputScale.value = '100%';
 buttonScaleSmaller.addEventListener('click', function () {
-  var scaleNumber = parseInt(inputScale.value, 10)
+  var scaleNumber = parseInt(inputScale.value, 10);
   if (scaleNumber > SCALE.MIN) {
     scaleNumber = scaleNumber - SCALE.STEP;
     if (scaleNumber < SCALE.MIN) {
@@ -193,7 +193,7 @@ buttonScaleSmaller.addEventListener('click', function () {
 });
 
 buttonScaleBigger.addEventListener('click', function () {
-  var scaleNumber = parseInt(inputScale.value, 10)
+  var scaleNumber = parseInt(inputScale.value, 10);
   if (scaleNumber < SCALE.MAX) {
     scaleNumber = scaleNumber + SCALE.STEP;
     if (scaleNumber > SCALE.MAX) {
