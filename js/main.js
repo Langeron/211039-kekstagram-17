@@ -85,6 +85,7 @@ var inputUploadImage = document.querySelector('.img-upload__input');
 var uploadButtonClose = uploadPopup.querySelector('.img-upload__cancel');
 var uploadImg = uploadPopup.querySelector('.img-upload__preview img');
 var inputEffectValue = uploadPopup.querySelector('input[name="effect-level"]');
+var textDescription = uploadPopup.querySelector('.text__description');
 
 var openUploadPopup = function () {
   uploadPopup.classList.remove('hidden');
@@ -101,7 +102,7 @@ var closeUploadPopup = function () {
 };
 
 var onUploadEscPress = function (evt) {
-  if (evt.keyCode === KEY_ESC) {
+  if (evt.keyCode === KEY_ESC && textDescription !== document.activeElement) {
     closeUploadPopup();
   }
 };
