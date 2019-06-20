@@ -85,6 +85,7 @@ var inputUploadImage = document.querySelector('.img-upload__input');
 var uploadButtonClose = uploadPopup.querySelector('.img-upload__cancel');
 var uploadImg = uploadPopup.querySelector('.img-upload__preview img');
 var inputEffectValue = uploadPopup.querySelector('input[name="effect-level"]');
+var textDescription = uploadPopup.querySelector('.text__description');
 
 var openUploadPopup = function () {
   uploadPopup.classList.remove('hidden');
@@ -101,7 +102,7 @@ var closeUploadPopup = function () {
 };
 
 var onUploadEscPress = function (evt) {
-  if (evt.keyCode === KEY_ESC) {
+  if (evt.keyCode === KEY_ESC && textDescription !== document.activeElement) {
     closeUploadPopup();
   }
 };
@@ -155,21 +156,29 @@ var calculateEffect = function (effectName, percent) {
 
 effectLevel.classList.add('hidden');
 
+var getAllEffectClasses = function () {
+  var effectClasses = [];
+  effectRadio.forEach(function (radioItem) {
+    var effectClass = 'effects__preview--' + radioItem.value;
+    effectClasses.push(effectClass);
+  });
+
+  return effectClasses;
+};
+
 var addFilterEffect = function (evt) {
   var radioItem = evt.target;
   var radioValue = radioItem.value;
-  uploadImg.className = '';
+  var effectClasses = getAllEffectClasses();
+  uploadImg.classList.remove.apply(uploadImg.classList, effectClasses);
   uploadImg.style.filter = '';
   inputEffectValue.value = '0';
+  uploadImg.classList.add('effects__preview--' + radioValue);
+  effectPin.style.left = '100%';
+  effectBar.style.width = '100%';
+  inputEffectValue.value = '100';
 
-  if (radioValue !== Effect.NONE) {
-    uploadImg.classList.add('effects__preview--' + radioValue);
-    effectPin.style.left = '100%';
-    effectBar.style.width = '100%';
-    inputEffectValue.value = '100';
-  }
-
-  if (uploadImg.className === '') {
+  if (uploadImg.classList.contains('effects__preview--none')) {
     effectLevel.classList.add('hidden');
   } else {
     effectLevel.classList.remove('hidden');
@@ -230,7 +239,7 @@ var getTransformStyleCss = function (element, scaleStyle) {
   element.style.transform = 'scale' + '(' + scaleStyle + ')';
 };
 
-var scaleImage = function (evt) {
+var onSizeButtonClick = function (evt) {
   var scaleNumber = parseInt(inputScale.value, 10);
   if (evt.target === buttonScaleSmaller) {
     if (scaleNumber > SCALE.MIN) {
@@ -253,5 +262,5 @@ var scaleImage = function (evt) {
   getTransformStyleCss(uploadImg, scaleStyle);
 };
 
-buttonScaleSmaller.addEventListener('click', scaleImage);
-buttonScaleBigger.addEventListener('click', scaleImage);
+buttonScaleSmaller.addEventListener('click', onSizeButtonClick);
+buttonScaleBigger.addEventListener('click', onSizeButtonClick);
