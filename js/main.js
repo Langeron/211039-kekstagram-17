@@ -168,7 +168,7 @@ var calculateEffect = function (effectName, percent) {
       break;
 
     case Effect.HEAT:
-      value = (percent * 3) / 100;
+      value = (percent * 2) / 100 + 1;
       break;
   }
 
@@ -212,11 +212,14 @@ var getFilterStyleCss = function (element, filter, valueEffect) {
   element.style.filter = filter + '(' + valueEffect + ')';
 };
 
-effectPin.addEventListener('mouseup', function () {
+var effectLevelLine = uploadPopup.querySelector('.effect-level__line');
+
+var applyEffect = function () {
   var inputRadioChecked = uploadPopup.querySelector('.effects__radio:checked');
   var currentEffect = inputRadioChecked.value;
   var valuePin = parseInt(effectPin.style.left, 10);
   var valueEffect = calculateEffect(currentEffect, valuePin);
+  effectBar.style.width = valuePin + '%';
   inputEffectValue.value = valuePin;
 
   switch (currentEffect) {
@@ -239,6 +242,59 @@ effectPin.addEventListener('mouseup', function () {
     case Effect.HEAT:
       getFilterStyleCss(uploadImg, FilterStyle.BRIGHTNESS, valueEffect);
       break;
+  }
+};
+
+var convertCoordInPercent = function (coord, fullWidth) {
+  var percent = (coord * 100) / fullWidth + '%';
+  return percent;
+};
+
+effectPin.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+  var startCoord = evt.clientX;
+  var effectLevelLineWidth = effectLevelLine.offsetWidth;
+  var coordSliderLine = effectLevelLine.getBoundingClientRect();
+  var coordSliderLineRight = coordSliderLine.left + effectLevelLineWidth;
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = startCoord - moveEvt.clientX;
+    startCoord = moveEvt.clientX;
+    var effectPinCoord = effectPin.offsetLeft - shift;
+
+    if (moveEvt.clientX < coordSliderLine.left) {
+      effectPinCoord = 0;
+    }
+
+    if (moveEvt.clientX > coordSliderLineRight) {
+      effectPinCoord = effectLevelLineWidth;
+    }
+    var pinPosition = convertCoordInPercent(effectPinCoord, effectLevelLineWidth);
+    effectPin.style.left = pinPosition;
+
+    applyEffect();
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
+
+effectLevelLine.addEventListener('click', function (evt) {
+  if (evt.target !== effectPin) {
+    var coordClickLine = evt.offsetX;
+    var effectLevelLineWidth = effectLevelLine.offsetWidth;
+    var pinPosition = convertCoordInPercent(coordClickLine, effectLevelLineWidth);
+    effectPin.style.left = pinPosition;
+    applyEffect();
   }
 });
 
