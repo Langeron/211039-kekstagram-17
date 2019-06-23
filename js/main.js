@@ -25,7 +25,13 @@ var FORMAT_IMG = {
   JPG: '.jpg'
 };
 
-var KEY_ESC = 27;
+var KEY_CODE = {
+  ESC: 27,
+  ARROW_RIGHT: 39,
+  ARROW_LEFT: 37
+};
+
+var PIN_STEP = 20;
 
 var SCALE = {
   STEP: 25,
@@ -112,6 +118,7 @@ var openUploadPopup = function () {
   inputScale.value = '100%';
   inputEffectOriginal.checked = true;
   uploadImg.classList.add(EFFECT_ORIGINAL);
+  effectLevel.classList.add('hidden');
 };
 
 var closeUploadPopup = function () {
@@ -123,7 +130,7 @@ var closeUploadPopup = function () {
 };
 
 var onUploadEscPress = function (evt) {
-  if (evt.keyCode === KEY_ESC && textDescription !== document.activeElement) {
+  if (evt.keyCode === KEY_CODE.ESC && textDescription !== document.activeElement) {
     closeUploadPopup();
   }
 };
@@ -174,8 +181,6 @@ var calculateEffect = function (effectName, percent) {
 
   return value;
 };
-
-effectLevel.classList.add('hidden');
 
 var addFilterEffect = function (evt) {
   var radioItem = evt.target;
@@ -246,9 +251,36 @@ var applyEffect = function () {
 };
 
 var convertCoordInPercent = function (coord, fullWidth) {
-  var percent = (coord * 100) / fullWidth + '%';
-  return percent;
+  return (coord * 100) / fullWidth + '%';
 };
+
+var onPinArrowsPress = function (evt) {
+  var startPinCoord = effectPin.offsetLeft;
+  var effectLevelLineWidth = effectLevelLine.offsetWidth;
+  var newPinCoord;
+
+  switch (evt.keyCode) {
+    case (KEY_CODE.ARROW_LEFT):
+      newPinCoord = startPinCoord - PIN_STEP;
+      if (newPinCoord < 0) {
+        newPinCoord = 0;
+      }
+      break;
+
+    case (KEY_CODE.ARROW_RIGHT):
+      newPinCoord = startPinCoord + PIN_STEP;
+      if (newPinCoord > effectLevelLineWidth) {
+        newPinCoord = effectLevelLineWidth;
+      }
+      break;
+  }
+
+  var pinPosition = convertCoordInPercent(newPinCoord, effectLevelLineWidth);
+  effectPin.style.left = pinPosition;
+  applyEffect();
+};
+
+effectPin.addEventListener('keydown', onPinArrowsPress);
 
 effectPin.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
