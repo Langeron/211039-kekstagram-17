@@ -19,6 +19,27 @@
   var inputEffectValue = uploadPopup.querySelector('input[name="effect-level"]');
   var inputEffectOriginal = uploadPopup.querySelector('input[value="none"]');
   var textDescription = uploadPopup.querySelector('.text__description');
+  var effectLevel = uploadPopup.querySelector('.effect-level');
+  var effectPin = uploadPopup.querySelector('.effect-level__pin');
+  var effectBar = uploadPopup.querySelector('.effect-level__depth');
+  var effectRadio = uploadPopup.querySelectorAll('.effects__radio');
+
+  var Effect = {
+    CHROME: 'chrome',
+    SEPIA: 'sepia',
+    MARVIN: 'marvin',
+    PHOBOS: 'phobos',
+    HEAT: 'heat',
+    NONE: 'none'
+  };
+
+  var FilterStyle = {
+    GRAYSCALE: 'grayscale',
+    SEPIA: 'sepia',
+    INVERT: 'invert',
+    BLUR: 'blur',
+    BRIGHTNESS: 'brightness'
+  };
 
   var getAllEffectClasses = function () {
     var effectClasses = [];
@@ -62,20 +83,6 @@
   inputUploadImage.addEventListener('change', openUploadPopup);
 
   uploadButtonClose.addEventListener('click', closeUploadPopup);
-
-  var effectLevel = uploadPopup.querySelector('.effect-level');
-  var effectPin = uploadPopup.querySelector('.effect-level__pin');
-  var effectBar = uploadPopup.querySelector('.effect-level__depth');
-  var effectRadio = uploadPopup.querySelectorAll('.effects__radio');
-
-  var Effect = {
-    CHROME: 'chrome',
-    SEPIA: 'sepia',
-    MARVIN: 'marvin',
-    PHOBOS: 'phobos',
-    HEAT: 'heat',
-    NONE: 'none'
-  };
 
   var calculateEffect = function (effectName, percent) {
     var value;
@@ -128,14 +135,6 @@
   effectRadio.forEach(function (radioItem) {
     radioItem.addEventListener('click', addFilterEffect);
   });
-
-  var FilterStyle = {
-    GRAYSCALE: 'grayscale',
-    SEPIA: 'sepia',
-    INVERT: 'invert',
-    BLUR: 'blur',
-    BRIGHTNESS: 'brightness'
-  };
 
   var getFilterStyleCss = function (element, filter, valueEffect) {
     element.style.filter = filter + '(' + valueEffect + ')';
