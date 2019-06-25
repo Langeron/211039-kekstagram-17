@@ -48,7 +48,7 @@
 
   window.effect = {
     removeAllEffect: removeAllEffect
-  }
+  };
 
   var calculateEffect = function (effectName, percent) {
     var value;
