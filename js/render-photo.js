@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var PHOTOS_COUNT = 25;
 
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
   var pictureList = document.querySelector('.pictures');
@@ -16,12 +15,11 @@
   };
 
   var onSuccess = function (photos) {
-    for (var i = 0; i < PHOTOS_COUNT; i++) {
-      renderPhoto(photos[i]);
-    }
-
+    photos.forEach(function (photo) {
+      renderPhoto(photo);
+    });
     pictureList.appendChild(fragment);
   };
 
-  window.load(onSuccess);
+  window.load(window.util.Method.GET, onSuccess);
 })();
