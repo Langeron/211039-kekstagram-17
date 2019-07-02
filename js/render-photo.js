@@ -70,9 +70,13 @@
           newFilter.classList.add('img-filters__button--active');
           currentFilter = window.util.shuffle(clonePhotos);
       }
-      window.debounce(delNodeList(currentPhotos))
-      // delNodeList(currentPhotos);
-      window.debounce(renderPhoto(currentFilter));
+
+      var updatePhoto = function () {
+        delNodeList(currentPhotos);
+        renderPhoto(currentFilter);
+      };
+
+      window.debounce(updatePhoto);
     });
   });
 })();
