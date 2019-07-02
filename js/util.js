@@ -26,7 +26,7 @@
       array[i] = temp;
     }
     return array;
-  }
+  };
 
   window.util = {
     KEY_CODE: KEY_CODE,
