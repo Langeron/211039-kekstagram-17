@@ -20,22 +20,20 @@
 
   var onSizeButtonClick = function (evt) {
     var scaleNumber = parseInt(inputScale.value, 10);
-    if (evt.target === buttonScaleSmaller) {
-      if (scaleNumber > SCALE.MIN) {
-        scaleNumber = scaleNumber - SCALE.STEP;
+    switch (evt.target) {
+      case buttonScaleSmaller:
+        scaleNumber -= SCALE.STEP;
         if (scaleNumber < SCALE.MIN) {
           scaleNumber = SCALE.MIN;
         }
-      }
-    } else {
-      if (scaleNumber < SCALE.MAX) {
-        scaleNumber = scaleNumber + SCALE.STEP;
+        break;
+
+      case buttonScaleBigger:
+        scaleNumber += SCALE.STEP;
         if (scaleNumber > SCALE.MAX) {
           scaleNumber = SCALE.MAX;
         }
-      }
     }
-
     var scaleStyle = scaleNumber / 100;
     inputScale.value = scaleNumber + '%';
     getTransformStyleCss(uploadImg, scaleStyle);

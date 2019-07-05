@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var PIN_STEP = 20;
 
   var EFFECT_ORIGINAL = 'effects__preview--none';
   var EFFECT_CLASS_PREFFIX = 'effects__preview--';
@@ -44,10 +43,6 @@
   var removeAllEffect = function () {
     var effectClasses = getAllEffectClasses();
     uploadImg.classList.remove.apply(uploadImg.classList, effectClasses);
-  };
-
-  window.effect = {
-    removeAllEffect: removeAllEffect
   };
 
   var calculateEffect = function (effectName, percent) {
@@ -106,12 +101,11 @@
     element.style.filter = filter + '(' + valueEffect + ')';
   };
 
-  var effectLevelLine = uploadPopup.querySelector('.effect-level__line');
 
-  var applyEffect = function () {
+  var applyEffect = function (pinPosition) {
     var inputRadioChecked = uploadPopup.querySelector('.effects__radio:checked');
     var currentEffect = inputRadioChecked.value;
-    var valuePin = parseInt(effectPin.style.left, 10);
+    var valuePin = parseInt(pinPosition, 10);
     var valueEffect = calculateEffect(currentEffect, valuePin);
     effectBar.style.width = valuePin + '%';
     inputEffectValue.value = valuePin;
@@ -137,86 +131,11 @@
         getFilterStyleCss(uploadImg, FilterStyle.BRIGHTNESS, valueEffect);
         break;
     }
-  };
 
-  var convertCoordInPercent = function (coord, fullWidth) {
-    return (coord * 100) / fullWidth + '%';
-  };
-
-  var onPinArrowsPress = function (evt) {
-    var startPinCoord = effectPin.offsetLeft;
-    var effectLevelLineWidth = effectLevelLine.offsetWidth;
-    var newPinCoord;
-
-    switch (evt.keyCode) {
-      case (window.util.KEY_CODE.ARROW_LEFT):
-        newPinCoord = startPinCoord - PIN_STEP;
-        if (newPinCoord < 0) {
-          newPinCoord = 0;
-        }
-        break;
-
-      case (window.util.KEY_CODE.ARROW_RIGHT):
-        newPinCoord = startPinCoord + PIN_STEP;
-        if (newPinCoord > effectLevelLineWidth) {
-          newPinCoord = effectLevelLineWidth;
-        }
-        break;
-    }
-
-    var pinPosition = convertCoordInPercent(newPinCoord, effectLevelLineWidth);
-    effectPin.style.left = pinPosition;
-    applyEffect();
-  };
-
-  effectPin.addEventListener('keydown', onPinArrowsPress);
-
-  effectPin.addEventListener('mousedown', function (evt) {
-    evt.preventDefault();
-    var startCoord = evt.clientX;
-    var effectLevelLineWidth = effectLevelLine.offsetWidth;
-    var coordSliderLine = effectLevelLine.getBoundingClientRect();
-    var coordSliderLineRight = coordSliderLine.left + effectLevelLineWidth;
-
-    var onMouseMove = function (moveEvt) {
-      moveEvt.preventDefault();
-
-      var shift = startCoord - moveEvt.clientX;
-      startCoord = moveEvt.clientX;
-      var effectPinCoord = effectPin.offsetLeft - shift;
-
-      if (moveEvt.clientX < coordSliderLine.left) {
-        effectPinCoord = 0;
-      }
-
-      if (moveEvt.clientX > coordSliderLineRight) {
-        effectPinCoord = effectLevelLineWidth;
-      }
-      var pinPosition = convertCoordInPercent(effectPinCoord, effectLevelLineWidth);
-      effectPin.style.left = pinPosition;
-
-      applyEffect();
+    window.effect = {
+      removeAllEffect: removeAllEffect
     };
+  };
 
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
-
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-    };
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  });
-
-  effectLevelLine.addEventListener('click', function (evt) {
-    if (evt.target !== effectPin) {
-      var coordClickLine = evt.offsetX;
-      var effectLevelLineWidth = effectLevelLine.offsetWidth;
-      var pinPosition = convertCoordInPercent(coordClickLine, effectLevelLineWidth);
-      effectPin.style.left = pinPosition;
-      applyEffect();
-    }
-  });
-
+  window.initSlider(applyEffect);
 })();
