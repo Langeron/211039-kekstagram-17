@@ -1,7 +1,8 @@
 'use strict';
+
 (function () {
   var PIN_STEP = 20;
-  window.initSlider = function (callback) {
+  var initSlider = function (callback) {
     var uploadPopup = document.querySelector('.img-upload__overlay');
     var effectPin = uploadPopup.querySelector('.effect-level__pin');
     var effectLevelLine = uploadPopup.querySelector('.effect-level__line');
@@ -85,4 +86,6 @@
       }
     });
   };
+
+  window.initSlider = initSlider;
 })();

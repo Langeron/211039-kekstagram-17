@@ -28,10 +28,17 @@
     return array;
   };
 
+  var delNodeList = function (list) {
+    list.forEach(function (item) {
+      item.remove();
+    });
+  };
+
   window.util = {
     KEY_CODE: KEY_CODE,
     getRandomNumber: getRandomNumber,
     shuffle: shuffle,
-    Method: Method
+    Method: Method,
+    delNodeList: delNodeList
   };
 })();

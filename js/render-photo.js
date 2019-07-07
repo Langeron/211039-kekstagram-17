@@ -30,19 +30,37 @@
     photos = data;
     renderPhoto(data);
     showFilter();
+    window.showBigPhoto(photos);
   };
+
+  window.load(window.util.Method.GET, onSuccess);
+
   var popularFilter = imgFilters.querySelector('#filter-popular');
   var newFilter = imgFilters.querySelector('#filter-new');
   var discussedFilter = imgFilters.querySelector('#filter-discussed');
   var filtersList = imgFilters.querySelectorAll('.img-filters__button');
 
-  var delNodeList = function (list) {
-    list.forEach(function (item) {
-      item.remove();
-    });
+  var defineFilter = function (target, clonePhotos) {
+    var currentFilter;
+    switch (target) {
+      case discussedFilter:
+        discussedFilter.classList.add('img-filters__button--active');
+        var discussedPhotos = clonePhotos;
+        discussedPhotos.sort(function (a, b) {
+          return b.comments.length - a.comments.length;
+        });
+        currentFilter = discussedPhotos;
+        break;
+      case popularFilter:
+        popularFilter.classList.add('img-filters__button--active');
+        currentFilter = photos;
+        break;
+      case newFilter:
+        newFilter.classList.add('img-filters__button--active');
+        currentFilter = window.util.shuffle(clonePhotos);
+    }
+    return currentFilter;
   };
-
-  window.load(window.util.Method.GET, onSuccess);
 
   filtersList.forEach(function (item) {
     item.addEventListener('click', function (evt) {
@@ -52,27 +70,10 @@
         filter.classList.remove('img-filters__button--active');
       });
       var currentPhotos = document.querySelectorAll('.picture');
-      var currentFilter;
-      switch (target) {
-        case discussedFilter:
-          discussedFilter.classList.add('img-filters__button--active');
-          var discussedPhotos = clonePhotos;
-          discussedPhotos.sort(function (a, b) {
-            return b.comments.length - a.comments.length;
-          });
-          currentFilter = discussedPhotos;
-          break;
-        case popularFilter:
-          popularFilter.classList.add('img-filters__button--active');
-          currentFilter = photos;
-          break;
-        case newFilter:
-          newFilter.classList.add('img-filters__button--active');
-          currentFilter = window.util.shuffle(clonePhotos);
-      }
+      var currentFilter = defineFilter(target, clonePhotos);
 
       var updatePhoto = function () {
-        delNodeList(currentPhotos);
+        window.util.delNodeList(currentPhotos);
         renderPhoto(currentFilter);
       };
 
