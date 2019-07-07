@@ -30,13 +30,15 @@
     photos = data;
     renderPhoto(data);
     showFilter();
+    window.showBigPhoto(photos);
   };
+
+  window.load(window.util.Method.GET, onSuccess);
+
   var popularFilter = imgFilters.querySelector('#filter-popular');
   var newFilter = imgFilters.querySelector('#filter-new');
   var discussedFilter = imgFilters.querySelector('#filter-discussed');
   var filtersList = imgFilters.querySelectorAll('.img-filters__button');
-
-  window.load(window.util.Method.GET, onSuccess);
 
   var defineFilter = function (target, clonePhotos) {
     var currentFilter;
