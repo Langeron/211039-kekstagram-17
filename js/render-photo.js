@@ -19,7 +19,6 @@
 
   var imgFilters = document.querySelector('.img-filters');
 
-
   var showFilter = function () {
     imgFilters.classList.remove('img-filters--inactive');
   };
@@ -30,7 +29,8 @@
     photos = data;
     renderPhoto(data);
     showFilter();
-    window.showBigPhoto(photos);
+    var pictures = document.querySelectorAll('.picture');
+    window.showBigPhoto(photos, pictures);
   };
 
   window.load(window.util.Method.GET, onSuccess);
@@ -75,6 +75,8 @@
       var updatePhoto = function () {
         window.util.delNodeList(currentPhotos);
         renderPhoto(currentFilter);
+        var newPictures = document.querySelectorAll('.picture');
+        window.showBigPhoto(currentFilter, newPictures);
       };
 
       window.debounce(updatePhoto);
