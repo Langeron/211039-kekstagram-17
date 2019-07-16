@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-
+  var URL = 'https://js.dump.academy/kekstagram/data';
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
   var pictureList = document.querySelector('.pictures');
   var fragment = document.createDocumentFragment();
@@ -33,7 +33,7 @@
     window.showBigPhoto(photos, pictures);
   };
 
-  window.load(window.util.Method.GET, onSuccess);
+  window.load(URL, window.util.Method.GET, onSuccess);
 
   var popularFilter = imgFilters.querySelector('#filter-popular');
   var newFilter = imgFilters.querySelector('#filter-new');

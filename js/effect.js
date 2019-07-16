@@ -131,10 +131,10 @@
         getFilterStyleCss(uploadImg, FilterStyle.BRIGHTNESS, valueEffect);
         break;
     }
+  };
 
-    window.effect = {
-      removeAllEffect: removeAllEffect
-    };
+  window.effect = {
+    removeAllEffect: removeAllEffect
   };
 
   window.initSlider(applyEffect);
