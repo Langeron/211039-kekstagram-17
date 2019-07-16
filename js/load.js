@@ -1,15 +1,15 @@
 'use strict';
 
 (function () {
-  var URL = 'https://js.dump.academy/kekstagram/data';
-  var Status = {
-    200: 200,
-    404: 404,
-    401: 401,
-    400: 400
-  };
+  window.load = function (url, method, onSuccess, data, onError) {
+    var URL = url;
+    var Status = {
+      200: 200,
+      404: 404,
+      401: 401,
+      400: 400
+    };
 
-  window.load = function (method, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -29,9 +29,11 @@
         case Status[401]:
           onError('Cтатус ответа: ' + xhr.status + ' Пользователь не авторизован');
           break;
+        default:
+          onError('Ошибка:' + xhr.status);
       }
     });
 
-    xhr.send();
+    xhr.send(data);
   };
 })();
