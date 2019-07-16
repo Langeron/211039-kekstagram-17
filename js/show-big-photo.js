@@ -11,8 +11,8 @@
     var likes = bigPicture.querySelector('.likes-count');
     var caption = bigPicture.querySelector('.social__caption');
     var commentsCount = bigPicture.querySelector('.comments-count');
-    var commetsWrapper = bigPicture.querySelector('.social__comments');
-    var commets = bigPicture.querySelectorAll('.social__comment');
+    var commentsWrapper = bigPicture.querySelector('.social__comments');
+    var comments = bigPicture.querySelectorAll('.social__comment');
     var fragment = document.createDocumentFragment();
     var commentCout = bigPicture.querySelector('.social__comment-count');
     var commentLoader = bigPicture.querySelector('.comments-loader');
@@ -30,7 +30,7 @@
 
     var onPhotoClose = function () {
       bigPicture.classList.add('hidden');
-      window.util.delNodeList(Array.from(commetsWrapper.children));
+      window.util.delNodeList(Array.from(commentsWrapper.children));
 
       closeBtn.removeEventListener('click', onPhotoClose);
     };
@@ -40,14 +40,14 @@
       likes.textContent = photosArray[i].likes;
       caption.textContent = photosArray[i].description;
       commentsCount.textContent = photosArray[i].comments.length;
-      window.util.delNodeList(commets);
+      window.util.delNodeList(comments);
       photosArray[i].comments.forEach(function (comment) {
         var commentElement = cloneComment.cloneNode(true);
         commentElement.querySelector('.social__picture').src = AVATAR_URL + window.util.getRandomNumber(1, 6) + SVG;
         commentElement.querySelector('.social__text').textContent = comment.message;
         fragment.appendChild(commentElement);
       });
-      commetsWrapper.appendChild(fragment);
+      commentsWrapper.appendChild(fragment);
     };
 
     var onPhotoOpen = function (i) {
