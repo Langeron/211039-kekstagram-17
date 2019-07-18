@@ -39,15 +39,15 @@
       commentsCoutWrapper.firstChild.remove();
       commentsCoutWrapper.insertAdjacentText('afterbegin', commentsWrapper.children.length + ' из ');
       if (commentsWrapper.children.length === allCommetns.length) {
-        commentLoader.classList.add('hidden')
+        commentLoader.classList.add('hidden');
       } else {
         commentLoader.classList.remove('hidden');
       }
     };
 
-    var showPartComments = function (comments) {
-      allCommetns = Array.from(comments).slice();
-      var cloneComments = Array.from(comments).slice(0, 5);
+    var showPartComments = function (newComments) {
+      allCommetns = Array.from(newComments).slice();
+      var cloneComments = Array.from(newComments).slice(0, 5);
       cloneComments.forEach(function (comment) {
         fragmentComment.appendChild(comment);
       });
