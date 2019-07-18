@@ -6,6 +6,7 @@
   var MAX_LENGTH = 20;
   var HASHTAGS_MAX_AMOUNT = 5;
   var LATTICE = '#';
+  var ERROR_STYLE = '2px solid red';
   var ErrorInput = {
     MIN_LENGTH: 'хеш-тег не может состоять только из одной решётки',
     SEPARATED_BY_SPACES: 'хэш-теги разделяются пробелами',
@@ -55,7 +56,7 @@
   inputHashtag.addEventListener('blur', function () {
     checkHashtagInput(inputHashtag);
     if (!inputHashtag.checkValidity()) {
-      inputHashtag.style.border = '2px solid red'
+      inputHashtag.style.border = ERROR_STYLE;
     } else {
       inputHashtag.style.border = '';
     }
