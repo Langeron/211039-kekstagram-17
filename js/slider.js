@@ -32,11 +32,10 @@
           break;
       }
 
-      var pinPosition = convertCoordInPercent(newPinCoord, effectLevelLineWidth);
-      effectPin.style.left = pinPosition;
-      callback(pinPosition);
+      effectPin.style.left = newPinCoord + 'px';
+      var pinPositionPercent = convertCoordInPercent(newPinCoord, effectLevelLineWidth);
+      callback(pinPositionPercent);
     };
-
 
     effectPin.addEventListener('keydown', onPinArrowsPress);
 
@@ -60,9 +59,10 @@
         if (moveEvt.clientX > coordSliderLineRight) {
           effectPinCoord = effectLevelLineWidth;
         }
-        var pinPosition = convertCoordInPercent(effectPinCoord, effectLevelLineWidth);
-        effectPin.style.left = pinPosition;
-        callback(pinPosition);
+
+        effectPin.style.left = effectPinCoord + 'px';
+        var pinPositionPercent = convertCoordInPercent(effectPinCoord, effectLevelLineWidth);
+        callback(pinPositionPercent);
       };
 
       var onMouseUp = function (upEvt) {

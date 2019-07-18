@@ -26,7 +26,6 @@
       return item !== '';
     });
 
-
     hashtags.forEach(function (hashtag, i) {
       if (hashtag[0] === LATTICE) {
         if (hashtag.length === 1) {
@@ -55,5 +54,10 @@
 
   inputHashtag.addEventListener('blur', function () {
     checkHashtagInput(inputHashtag);
+    if (!inputHashtag.checkValidity()) {
+      inputHashtag.style.border = '2px solid red'
+    } else {
+      inputHashtag.style.border = '';
+    }
   });
 })();
