@@ -14,7 +14,7 @@
   var inputHashtag = uploadPopup.querySelector('.text__hashtags');
   var form = document.querySelector('.img-upload__form');
 
-  var onUploadPopupOpen = function () {
+  var onUploadPopupOpen = function (evt) {
     uploadPopup.classList.remove('hidden');
     document.addEventListener('keydown', onUploadEscPress);
     uploadImg.style.transform = 'scale(1)';
@@ -22,6 +22,7 @@
     inputEffectOriginal.checked = true;
     uploadImg.classList.add(EFFECT_ORIGINAL);
     effectLevel.classList.add('hidden');
+    window.changeInputFile(evt);
   };
 
   var onUploadPopupClose = function () {
