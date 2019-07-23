@@ -24,7 +24,7 @@
     var fileReader = new FileReader();
     fileReader.addEventListener('load', displayImageViaFileRader);
     fileReader.readAsDataURL(imageFile);
-  }
+  };
 
   var displayImageViaFileRader = function (evt) {
     previewImage.src = evt.target.result;
