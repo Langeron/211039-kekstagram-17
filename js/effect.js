@@ -33,7 +33,7 @@
   var getAllEffectClasses = function () {
     var effectClasses = [];
     effectRadio.forEach(function (radioItem) {
-      var effectClass = 'effects__preview--' + radioItem.value;
+      var effectClass = EFFECT_CLASS_PREFFIX + radioItem.value;
       effectClasses.push(effectClass);
     });
 
@@ -74,13 +74,12 @@
     return value;
   };
 
-  var addFilterEffect = function (evt) {
+  var onEffectAdd = function (evt) {
     var radioItem = evt.target;
     var radioValue = radioItem.value;
     removeAllEffect();
 
     uploadImg.style.filter = '';
-    inputEffectValue.value = '0';
     uploadImg.classList.add(EFFECT_CLASS_PREFFIX + radioValue);
     effectPin.style.left = '100%';
     effectBar.style.width = '100%';
@@ -94,13 +93,12 @@
   };
 
   effectRadio.forEach(function (radioItem) {
-    radioItem.addEventListener('click', addFilterEffect);
+    radioItem.addEventListener('click', onEffectAdd);
   });
 
   var getFilterStyleCss = function (element, filter, valueEffect) {
     element.style.filter = filter + '(' + valueEffect + ')';
   };
-
 
   var applyEffect = function (pinPosition) {
     var inputRadioChecked = uploadPopup.querySelector('.effects__radio:checked');

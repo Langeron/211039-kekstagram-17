@@ -2,29 +2,30 @@
 
 (function () {
   var PIN_STEP = 20;
-  var initSlider = function (callback) {
-    var uploadPopup = document.querySelector('.img-upload__overlay');
-    var effectPin = uploadPopup.querySelector('.effect-level__pin');
-    var effectLevelLine = uploadPopup.querySelector('.effect-level__line');
 
-    var convertCoordInPercent = function (coord, fullWidth) {
-      return (coord * 100) / fullWidth + '%';
-    };
+  var uploadPopup = document.querySelector('.img-upload__overlay');
+  var effectPin = uploadPopup.querySelector('.effect-level__pin');
+  var effectLevelLine = uploadPopup.querySelector('.effect-level__line');
 
+  var convertCoordInPercent = function (coord, fullWidth) {
+    return (coord * 100) / fullWidth + '%';
+  };
+
+  var sliderArrowControl = function (callback) {
     var onPinArrowsPress = function (evt) {
       var startPinCoord = effectPin.offsetLeft;
       var effectLevelLineWidth = effectLevelLine.offsetWidth;
       var newPinCoord;
 
       switch (evt.keyCode) {
-        case (window.util.KEY_CODE.ARROW_LEFT):
+        case (window.util.KeyCode.ARROW_LEFT):
           newPinCoord = startPinCoord - PIN_STEP;
           if (newPinCoord < 0) {
             newPinCoord = 0;
           }
           break;
 
-        case (window.util.KEY_CODE.ARROW_RIGHT):
+        case (window.util.KeyCode.ARROW_RIGHT):
           newPinCoord = startPinCoord + PIN_STEP;
           if (newPinCoord > effectLevelLineWidth) {
             newPinCoord = effectLevelLineWidth;
@@ -38,7 +39,9 @@
     };
 
     effectPin.addEventListener('keydown', onPinArrowsPress);
+  };
 
+  var onSliderDrag = function (callback) {
     effectPin.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
       var startCoord = evt.clientX;
@@ -75,7 +78,9 @@
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
     });
+  };
 
+  var onSliderClick = function (callback) {
     effectLevelLine.addEventListener('click', function (evt) {
       if (evt.target !== effectPin) {
         var coordClickLine = evt.offsetX;
@@ -85,6 +90,12 @@
         callback(pinPosition);
       }
     });
+  };
+
+  var initSlider = function (callback) {
+    sliderArrowControl(callback);
+    onSliderDrag(callback);
+    onSliderClick(callback);
   };
 
   window.initSlider = initSlider;

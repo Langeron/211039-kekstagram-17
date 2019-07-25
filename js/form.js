@@ -1,18 +1,18 @@
 'use strict';
+
 (function () {
   var EFFECT_ORIGINAL = 'effects__preview--none';
-  var URL = 'https://js.dump.academy/kekstagram';
 
-  var uploadPopup = document.querySelector('.img-upload__overlay');
-  var inputUploadImage = document.querySelector('.img-upload__input');
+  var form = document.querySelector('.img-upload__form');
+  var uploadPopup = form.querySelector('.img-upload__overlay');
+  var inputUploadImage = form.querySelector('.img-upload__input');
   var uploadButtonClose = uploadPopup.querySelector('.img-upload__cancel');
   var uploadImg = uploadPopup.querySelector('.img-upload__preview img');
   var inputEffectOriginal = uploadPopup.querySelector('input[value="none"]');
   var textDescription = uploadPopup.querySelector('.text__description');
   var effectLevel = uploadPopup.querySelector('.effect-level');
-  var inputScale = document.querySelector('.scale__control--value');
+  var inputScale = uploadPopup.querySelector('.scale__control--value');
   var inputHashtag = uploadPopup.querySelector('.text__hashtags');
-  var form = document.querySelector('.img-upload__form');
 
   var onUploadPopupOpen = function (evt) {
     uploadPopup.classList.remove('hidden');
@@ -34,7 +34,9 @@
   };
 
   var onUploadEscPress = function (evt) {
-    if (evt.keyCode === window.util.KEY_CODE.ESC && textDescription !== document.activeElement && inputHashtag !== document.activeElement) {
+    if (evt.keyCode === window.util.KeyCode.ESC
+      && textDescription !== document.activeElement
+      && inputHashtag !== document.activeElement) {
       onUploadPopupClose();
     }
   };
@@ -51,20 +53,22 @@
     var buttonSuccess = cloneMessage.querySelector('.success__button');
     var successInner = cloneMessage.querySelector('.success__inner');
 
-    buttonSuccess.addEventListener('click', function () {
+    var onMessageRemove = function () {
       cloneMessage.remove();
-    });
+    };
+
+    buttonSuccess.addEventListener('click', onMessageRemove);
 
     var onSuccessClick = function (evt) {
       if (evt.target !== successInner && !successInner.contains(evt.target)) {
-        cloneMessage.remove();
+        onMessageRemove();
         document.removeEventListener('click', onSuccessClick);
       }
     };
 
     var onSuccessEscPress = function (evt) {
-      if (evt.keyCode === window.util.KEY_CODE.ESC) {
-        cloneMessage.remove();
+      if (evt.keyCode === window.util.KeyCode.ESC) {
+        onMessageRemove();
         document.removeEventListener('keydown', onSuccessEscPress);
       }
     };
@@ -83,24 +87,26 @@
     var errorInner = cloneError.querySelector('.error__inner');
     var errorButtons = cloneError.querySelectorAll('.error__button');
 
+    var onErrorRemove = function () {
+      cloneError.remove();
+    };
+
     var onErrorClick = function (evt) {
       if (evt.target !== errorInner && !errorInner.contains(evt.target)) {
-        cloneError.remove();
+        onErrorRemove();
         document.removeEventListener('click', onErrorClick);
       }
     };
 
     var onErrorEscPress = function (evt) {
-      if (evt.keyCode === window.util.KEY_CODE.ESC) {
-        cloneError.remove();
+      if (evt.keyCode === window.util.KeyCode.ESC) {
+        onErrorRemove();
         document.removeEventListener('keydown', onErrorEscPress);
       }
     };
 
     errorButtons.forEach(function (button) {
-      button.addEventListener('click', function () {
-        cloneError.remove();
-      });
+      button.addEventListener('click', onErrorRemove);
     });
 
     document.addEventListener('keydown', onErrorEscPress);
@@ -109,8 +115,8 @@
     onUploadPopupClose();
   };
 
-  form.addEventListener('submit', function (evt) {
-    window.load(URL, window.util.Method.POST, onSuccess, new FormData(form), onError);
-    evt.preventDefault();
-  });
+  window.form = {
+    onSuccessUpload: onSuccess,
+    onErrorUpload: onError
+  };
 })();

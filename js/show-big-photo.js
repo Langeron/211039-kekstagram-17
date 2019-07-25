@@ -4,6 +4,7 @@
   var AVATAR_URL = 'img/avatar-';
   var SVG = '.svg';
   var cloneComment = document.querySelector('.social__comment').cloneNode(true);
+  var COMMENT_COUNT = 5;
 
   var showBigPhoto = function (photos, pictures) {
     var bigPicture = document.querySelector('.big-picture');
@@ -19,7 +20,7 @@
     var closeBtn = bigPicture.querySelector('.big-picture__cancel');
 
     var onPhotoEscPress = function (evt) {
-      if (evt.keyCode === window.util.KEY_CODE.ESC) {
+      if (evt.keyCode === window.util.KeyCode.ESC) {
         onPhotoClose();
       }
     };
@@ -62,13 +63,8 @@
       currentComents = allCommetns.filter(function (comment, i) {
         if (comment !== currentComents[i]) {
           count++;
-          if (count > 5) {
-            return false;
-          }
-          return comment;
-        } else {
-          return false;
         }
+        return count <= COMMENT_COUNT && count !== 0;
       });
       currentComents.forEach(function (comment) {
         fragmentLoadComments.appendChild(comment);
@@ -77,13 +73,13 @@
       updateCountComments();
     };
 
-    var applyImgParametrs = function (photosArray, i) {
-      bigPictureImg.src = photosArray[i].url;
-      likes.textContent = photosArray[i].likes;
-      caption.textContent = photosArray[i].description;
-      commentsCount.textContent = photosArray[i].comments.length;
+    var applyImgParametrs = function (paramPhoto) {
+      bigPictureImg.src = paramPhoto.url;
+      likes.textContent = paramPhoto.likes;
+      caption.textContent = paramPhoto.description;
+      commentsCount.textContent = paramPhoto.comments.length;
       window.util.delNodeList(comments);
-      photosArray[i].comments.forEach(function (comment) {
+      paramPhoto.comments.forEach(function (comment) {
         var commentElement = cloneComment.cloneNode(true);
         commentElement.querySelector('.social__picture').src = AVATAR_URL + window.util.getRandomNumber(1, 6) + SVG;
         commentElement.querySelector('.social__picture').alt = comment.name;
@@ -94,9 +90,10 @@
       showPartComments(allComments);
     };
 
-    var onPhotoOpen = function (i) {
+    var onPhotoOpen = function (paramPhoto) {
       bigPicture.classList.remove('hidden');
-      applyImgParametrs(photos, i);
+      applyImgParametrs(paramPhoto);
+
       closeBtn.addEventListener('click', onPhotoClose);
       document.addEventListener('keydown', onPhotoEscPress);
       commentLoader.addEventListener('click', onLoadClick);
@@ -104,7 +101,8 @@
 
     pictures.forEach(function (item, i) {
       item.addEventListener('click', function () {
-        onPhotoOpen(i);
+        var paramPhoto = photos[i];
+        onPhotoOpen(paramPhoto);
       });
     });
   };

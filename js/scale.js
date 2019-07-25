@@ -8,6 +8,8 @@
     MAX: 100
   };
 
+  var TRANSFORM_SCALE = 'scale'
+
   var scale = document.querySelector('.scale');
   var buttonScaleSmaller = scale.querySelector('.scale__control--smaller');
   var buttonScaleBigger = scale.querySelector('.scale__control--bigger');
@@ -15,7 +17,7 @@
   var uploadImg = document.querySelector('.img-upload__preview img');
 
   var getTransformStyleCss = function (element, scaleStyle) {
-    element.style.transform = 'scale' + '(' + scaleStyle + ')';
+    element.style.transform = TRANSFORM_SCALE + '(' + scaleStyle + ')';
   };
 
   var onSizeButtonClick = function (evt) {
