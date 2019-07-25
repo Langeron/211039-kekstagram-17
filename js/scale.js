@@ -8,7 +8,7 @@
     MAX: 100
   };
 
-  var TRANSFORM_SCALE = 'scale'
+  var TRANSFORM_SCALE = 'scale';
 
   var scale = document.querySelector('.scale');
   var buttonScaleSmaller = scale.querySelector('.scale__control--smaller');
