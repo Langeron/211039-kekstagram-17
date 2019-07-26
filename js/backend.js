@@ -12,10 +12,10 @@
   };
 
   var Status = {
-    200: 200,
-    404: 404,
-    401: 401,
-    400: 400
+    SUCCESS: 200,
+    NOT_FOUND: 404,
+    NOT_AUTHORIZED: 401,
+    INVALID_REQUEST: 400
   };
 
   var backend = function (url, method, onSuccess, data, onError) {
@@ -26,16 +26,16 @@
 
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
-        case Status[200]:
+        case Status.SUCCESS:
           onSuccess(xhr.response);
           break;
-        case Status[404]:
+        case Status.NOT_FOUND:
           onError('Cтатус ответа: ' + xhr.status + ' Ничего не найдено');
           break;
-        case Status[400]:
+        case Status.INVALID_REQUEST:
           onError('Cтатус ответа: ' + xhr.status + ' Неверный запрос');
           break;
-        case Status[401]:
+        case Status.NOT_AUTHORIZED:
           onError('Cтатус ответа: ' + xhr.status + ' Пользователь не авторизован');
           break;
         default:

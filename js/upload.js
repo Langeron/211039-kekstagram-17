@@ -22,11 +22,11 @@
     }
 
     var fileReader = new FileReader();
-    fileReader.addEventListener('load', displayImageViaFileRader);
+    fileReader.addEventListener('load', onImageDisplay);
     fileReader.readAsDataURL(imageFile);
   };
 
-  var displayImageViaFileRader = function (evt) {
+  var onImageDisplay = function (evt) {
     previewImage.src = evt.target.result;
     var effectsPreview = document.querySelectorAll('.effects__preview');
     effectsPreview.forEach(function (effect) {
