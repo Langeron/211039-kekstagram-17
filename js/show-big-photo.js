@@ -12,7 +12,7 @@
   var commentsCount = bigPicture.querySelector('.comments-count');
   var commentsWrapper = bigPicture.querySelector('.social__comments');
   var comments = bigPicture.querySelectorAll('.social__comment');
-  var commentsCoutWrapper = bigPicture.querySelector('.social__comment-count');
+  var commentsCountWrapper = bigPicture.querySelector('.social__comment-count');
   var commentLoader = bigPicture.querySelector('.comments-loader');
   var closeBtn = bigPicture.querySelector('.big-picture__cancel');
 
@@ -31,12 +31,12 @@
   };
 
   var fragmentComment = document.createDocumentFragment();
-  var allCommetns;
+  var allComments;
 
   var updateCountComments = function () {
-    commentsCoutWrapper.firstChild.remove();
-    commentsCoutWrapper.insertAdjacentText('afterbegin', commentsWrapper.children.length + ' из ');
-    if (commentsWrapper.children.length === allCommetns.length) {
+    commentsCountWrapper.firstChild.remove();
+    commentsCountWrapper.insertAdjacentText('afterbegin', commentsWrapper.children.length + ' из ');
+    if (commentsWrapper.children.length === allComments.length) {
       commentLoader.classList.add('hidden');
     } else {
       commentLoader.classList.remove('hidden');
@@ -44,7 +44,7 @@
   };
 
   var showPartComments = function (newComments) {
-    allCommetns = Array.from(newComments).slice();
+    allComments = Array.from(newComments).slice();
     var cloneComments = Array.from(newComments).slice(0, 5);
     cloneComments.forEach(function (comment) {
       fragmentComment.appendChild(comment);
@@ -55,15 +55,15 @@
 
   var onLoadClick = function () {
     var fragmentLoadComments = document.createDocumentFragment();
-    var currentComents = document.querySelectorAll('.social__comment');
+    var currentComments = document.querySelectorAll('.social__comment');
     var count = 0;
-    currentComents = allCommetns.filter(function (comment, i) {
-      if (comment !== currentComents[i]) {
+    currentComments = allComments.filter(function (comment, i) {
+      if (comment !== currentComments[i]) {
         count++;
       }
       return count <= COMMENT_COUNT && count !== 0;
     });
-    currentComents.forEach(function (comment) {
+    currentComments.forEach(function (comment) {
       fragmentLoadComments.appendChild(comment);
     });
     commentsWrapper.appendChild(fragmentLoadComments);

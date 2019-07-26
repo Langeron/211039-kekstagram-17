@@ -38,7 +38,7 @@
         break;
       case newFilter:
         newFilter.classList.add('img-filters__button--active');
-        currentFilter = window.util.shuffle(clonePhotos);
+        currentFilter = window.util.shuffle(clonePhotos).slice(0, 10);
         break;
     }
     return currentFilter;
